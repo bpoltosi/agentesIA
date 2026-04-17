@@ -1,0 +1,29 @@
+[
+  {
+    "timestamp": "2026-04-14 00:09:33",
+    "date": "2026-04-14",
+    "agent": "Redator",
+    "content_type": "newsletter",
+    "topic": "",
+    "output_chars": 77,
+    "success": true
+  },
+  {
+    "timestamp": "2026-04-14 00:11:13",
+    "date": "2026-04-14",
+    "agent": "Designer",
+    "content_type": "brief_visual",
+    "topic": "baixa do dolar e sua influencia em empresas da bolsa brasileira",
+    "output_chars": 77,
+    "success": true
+  },
+  {
+    "timestamp": "2026-04-14 00:38:14",
+    "date": "2026-04-14",
+    "agent": "Designer",
+    "content_type": "brief_visual",
+    "topic": "fale sobre como a baixa do dolar afeta o valor de empresas da bolsa brasileira",
+    "output_chars": 3084,
+    "success": true
+  }
+]

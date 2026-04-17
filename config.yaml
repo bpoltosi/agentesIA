@@ -1,0 +1,175 @@
+# ============================================================
+# Configuração central do sistema multi-agente de finanças
+# ============================================================
+
+ollama:
+  model: "llama3.2:3b"
+  base_url: "http://localhost:11434"
+  temperature: 0.7
+  timeout: 120
+
+# ----------------------------------------------------------
+# Fontes de notícias (RSS + sites para scraping)
+# ----------------------------------------------------------
+news:
+  rss_feeds:
+    - name: "InfoMoney"
+      url: "https://www.infomoney.com.br/feed/"
+    - name: "Valor Econômico"
+      url: "https://valor.globo.com/rss/financas.xml"
+    - name: "Exame Invest"
+      url: "https://exame.com/rss/invest/"
+    - name: "Investing.com BR"
+      url: "https://br.investing.com/rss/news.rss"
+    - name: "B3 Notícias"
+      url: "https://www.b3.com.br/rss/noticias.xml"
+
+  scraping_sites:
+    - name: "Money Times"
+      url: "https://www.moneytimes.com.br"
+      article_selector: "article h2 a"
+    - name: "Suno Research"
+      url: "https://www.suno.com.br/noticias/"
+      article_selector: "h3.entry-title a"
+
+  max_articles: 10
+  max_age_hours: 24
+
+# ----------------------------------------------------------
+# Perfis de inspiração (estilo de conteúdo financeiro)
+# ----------------------------------------------------------
+inspiration_profiles:
+  - handle: "@mepoupe"
+    platform: "Instagram"
+    style: "Didático, linguagem simples, foco em finanças pessoais e investimentos para iniciantes"
+    tone: "Amigável, motivador, sem jargões"
+    formats: ["carrossel educativo", "reels curtos", "comparativos visuais"]
+
+  - handle: "@ofinancista"
+    platform: "Instagram"
+    style: "Análise de mercado, FIIs, ações, renda variável, dados e gráficos"
+    tone: "Técnico mas acessível, direto ao ponto"
+    formats: ["análise de ativos", "resumo de resultados trimestrais", "watchlist"]
+
+  - handle: "@ricoempreendedor"
+    platform: "Instagram"
+    style: "Empreendedorismo + finanças, mindset de riqueza, cases de sucesso"
+    tone: "Inspirador, storytelling, chamada para ação forte"
+    formats: ["reels motivacionais", "dicas de negócio", "história de vida"]
+
+  - handle: "@investidorsardinha"
+    platform: "Instagram"
+    style: "Conteúdo para pequenos investidores, crítico de produtos financeiros ruins"
+    tone: "Bem-humorado, crítico, transparente"
+    formats: ["comparativos de tarifas", "desmascarando mitos", "rankings"]
+
+# ----------------------------------------------------------
+# Parâmetros por agente
+# ----------------------------------------------------------
+agents:
+  news_writer:
+    newsletter_sections:
+      - "Destaque do dia"
+      - "Mercados"
+      - "Economia brasileira"
+      - "Internacional"
+      - "Para ficar de olho"
+    max_topics_for_copywriter: 5
+    language: "pt-BR"
+
+  copywriter:
+    content_types:
+      - "post_feed"        # post estático para feed
+      - "legenda_reel"     # caption para reels
+      - "copy_anuncio"     # texto de anúncio pago
+      - "cta"              # call-to-action
+    max_hashtags: 10
+    cta_styles: ["urgência", "curiosidade", "benefício", "prova social"]
+
+  designer:
+    output_platforms:
+      - "Instagram Feed (1080x1080)"
+      - "Instagram Reel (1080x1920)"
+      - "Instagram Stories (1080x1920)"
+      - "Carrossel (1080x1080 por slide)"
+    color_palettes:
+      - name: "Confiança Financeira"
+        colors: ["#1A3C5E", "#2E86C1", "#F0F4F8", "#F39C12"]
+      - name: "Crescimento Verde"
+        colors: ["#1B5E20", "#43A047", "#F9FBE7", "#FFB300"]
+      - name: "Premium Dark"
+        colors: ["#212121", "#424242", "#FFCA28", "#FFFFFF"]
+    styles: ["minimalista", "bold/impactante", "editorial", "clean corporativo"]
+
+  video_editor:
+    reel_duration_seconds: 30
+    carousel_slides_min: 5
+    carousel_slides_max: 10
+    reel_types:
+      educativo:
+        hook_style: "pergunta provocativa"
+        structure: ["hook", "problema", "conceito", "exemplo prático", "conclusão + CTA"]
+      informativo:
+        hook_style: "dado ou notícia impactante"
+        structure: ["manchete", "contexto", "impacto", "o que fazer", "CTA"]
+
+  marketing:
+    meta_ads_columns:
+      required: ["Campaign name", "Impressions", "Clicks", "Spend", "Results"]
+      optional: ["CTR", "CPC", "CPM", "ROAS", "Reach", "Frequency"]
+    google_ads_columns:
+      required: ["Campaign", "Impressions", "Clicks", "Cost", "Conversions"]
+      optional: ["CTR", "Avg. CPC", "Conv. rate", "Cost / conv.", "ROAS"]
+    benchmarks:
+      meta:
+        ctr_min: 1.0        # % mínimo aceitável
+        cpc_max_brl: 3.50   # CPC máximo aceitável em BRL
+        cpm_ref_brl: 15.0   # CPM de referência BRL
+        frequency_max: 4.0  # frequência máxima antes de saturar
+      google:
+        ctr_min: 2.0
+        cpc_max_brl: 5.00
+        conv_rate_min: 2.0  # % mínimo de conversão
+
+# ----------------------------------------------------------
+# Saídas
+# ----------------------------------------------------------
+outputs:
+  directory: "./outputs"
+  formats:
+    newsletter: "md"
+    copywriter: "md"
+    designer: "md"
+    video_editor: "md"
+    marketing: "pdf"
+
+# ----------------------------------------------------------
+# Agendamento automático
+# ----------------------------------------------------------
+scheduler:
+  enabled: false
+  newsletter_time: "08:00"       # Horário da newsletter diária (HH:MM)
+  newsletter_days:               # Dias da semana (0=seg, 6=dom)
+    - 1
+    - 3
+    - 5
+  pipeline_time: "09:00"        # Horário do pipeline completo (se habilitado)
+  pipeline_days:
+    - 1
+  timezone: "America/Sao_Paulo"
+  notify_on_complete: false      # Reservado para futuras integrações
+
+# ----------------------------------------------------------
+# Templates
+# ----------------------------------------------------------
+templates_file: "./templates.json"
+
+# ----------------------------------------------------------
+# Calendário editorial
+# ----------------------------------------------------------
+calendar_file: "./calendar.json"
+
+# ----------------------------------------------------------
+# Métricas
+# ----------------------------------------------------------
+metrics_file: "./metrics.json"
